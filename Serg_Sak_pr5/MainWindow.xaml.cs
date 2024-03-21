@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+
 
 namespace Serg_Sak_pr5
 {
@@ -37,12 +40,16 @@ namespace Serg_Sak_pr5
             {
                 var user = db.User
                     .AsNoTracking()
-                    .FirstOrDefault(u->u.Login-- Login_Box.Text && u.Password-- Password_Box.Text);
+                    .FirstOrDefault(u => u.Login == Login_Box.Text && u.Password == Password_Box.Text);
+
 
                 if (user == null)
                 {
                     MessageBox.Show("Пользователь с такими данными не найден!");
                     return;
+                }
+                else if (Login_Box.Text == user.Login && Password_Box.Text == user.Password){
+                    MessageBox.Show($"Здравствуйте, {user.Role} {user.FIO}");
                 }
             }
         }
