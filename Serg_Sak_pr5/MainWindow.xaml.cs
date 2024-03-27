@@ -28,12 +28,17 @@ namespace Serg_Sak_pr5
             InitializeComponent();
         }
 
-        private void Auth_Button_Click(object sender, RoutedEventArgs e)
+        public void Auth_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Auth(Login_Box.Text, Password_Box.Text);
+        }
+
+        public bool Auth(string login, string password)
         {
             if (string.IsNullOrEmpty(Login_Box.Text) || string.IsNullOrEmpty(Password_Box.Text))
             {
                 MessageBox.Show("Введите логин и пароль!");
-                return;
+                return false;
             }
 
             using (var db = new Entities())
@@ -46,12 +51,18 @@ namespace Serg_Sak_pr5
                 if (user == null)
                 {
                     MessageBox.Show("Пользователь с такими данными не найден!");
-                    return;
+                    return false;
                 }
-                else if (Login_Box.Text == user.Login && Password_Box.Text == user.Password){
+                else if (Login_Box.Text == user.Login && Password_Box.Text == user.Password)
+                {
                     MessageBox.Show($"Здравствуйте, {user.Role} {user.FIO}");
                 }
+                Login_Box.Clear();
+                Password_Box.Clear();
+
+                return true;
             }
         }
+      
     }
 }
